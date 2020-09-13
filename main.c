@@ -1,4 +1,5 @@
 #include "header.h"
+#include "execute.c"
 
 int main()
 {
@@ -35,15 +36,15 @@ void shell()
         char *token = strtok(line, ";");
         char **cmd = malloc(256 * sizeof(char *));
         positions = 0;
-        // while (token != NULL) {
-        //     cmd[positions++] = token;
-        //     token = strtok(NULL, ";");
-        // }
-        // int i = 0;
-        // while (i<positions) {
-        //     execute(cmd[i]);
-        //     i++;
-        // }
+        while (token != NULL) {
+            cmd[positions++] = token;
+            token = strtok(NULL, ";");
+        }
+        int i = 0;
+        while (i<positions) {
+            execute(cmd[i]);
+            i++;
+        }
 
         free(line);
         free(cmd);
@@ -69,8 +70,6 @@ void prompt()
         // printf("%s %s\n", CWD, HOME);
         if(p == 0)
         {
-            // DIR = p + strlen(HOME);
-            // printf("<\x1B[1;32m%s@%s\x1B[0m:\x1B[1;34m~%s\x1B[0m>", USER, HOST, DIR);
             printf("\x1B[0m<\x1B[1;32m%s@%s\x1B[0m:\x1B[1;34m~\x1B[0m> ", USER, HOST);
         }
         else

@@ -16,6 +16,7 @@
 
 char USER[1024], HOST[1024], CWD[2048], HOME[2048];
 int positions;
+long long int job_count;
 
 // main.c
 void shell();
