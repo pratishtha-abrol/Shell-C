@@ -28,6 +28,7 @@ void shell()
 
     do
     {
+        signal(SIGCHLD, done);
         prompt();
         
         line = input();
@@ -86,4 +87,26 @@ char *input ()
     ssize_t buff = 0;
     getline(&line, &buff, stdin);
     return line;
+}
+
+void done()
+{
+    int status;
+    pid_t p;
+    while (1) {
+        p = waitpid(CHILD_PID[job_count], &status, WNOHANG);
+        if (p == -1)
+        {
+            return;
+        }
+        else {
+            if (WIFEXITED(status))
+            {
+                printf("\n[%lld]+\tDone\t\t%s\tExited Successfully\n", job_count, temp[job_count]);
+                printf("Press Enter\n");
+                // prompt();
+                job_count--;
+            }
+        }
+    }
 }

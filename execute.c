@@ -15,7 +15,8 @@ void execute (char *line)
         return;
     }
     char **args = (char**)malloc(sizeof(char*) * 100);
-    int n = 0, background = 0;
+    int n = 0;
+    int background = 0;
     pid_t pid;
     
     while (c != NULL)
@@ -56,14 +57,23 @@ void execute (char *line)
             setpgid(0, 0);
             execvp(args[0], args);
             perror("execvp");
-            exit(1);
+            return;
         }
         else
         {
-            if (!background)
+            if (background == 0)
             {
                 wait(NULL);
+                return;
             }
+            else
+            {
+                CHILD_PID[job_count] = pid;
+                printf("Background process [%lld], pid : %i\n", job_count, pid);
+                strcpy(temp[job_count], args[0]);
+                return;
+            }
+            
         }                
     }
 }
