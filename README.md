@@ -8,49 +8,48 @@ Background and Foreground processes are also handled.
 * pwd : prints present working directory.
 
 * cd : changes directory as per the flags given.
-    * ``` bash
-    cd
-    cd .
-    cd ..
-    cd ~
-    cd <directory>
+    * ``` bash cd
+   ``` cd .
+       cd ..
+       cd ~
+       cd <directory>
     ```
 
 * ls : lists contents of a particular directory based on the flags given. All flags are supported, ordering doesn't matter.
     * ``` bash
-    ls
-    ls -a
-    ls -l
-    ls -la
-    ls -al
-    ls <directory>
+  ```  ls
+       ls -a
+       ls -l
+       ls -la
+       ls -al
+       ls <directory>
     ```
 
 * echo : prints a message on the terminal.
     * ``` bash
-    echo <"Hello World">
+      ``` echo <"Hello World">
     ```
 
 * pinfo : lists details of a given process id, of the shell in case process id is not specified.
     * ```bash
-    pinfo <pid>
-    pinfo
+   ``` pinfo <pid>
+       pinfo
     ```
 
 ## Foreground and Background processes
 
 * Foreground processes require the shell to halt for the child process to complete before the shell resumes control.
     * ``` bash
-    vim
-    gedit
-    emacs
+   ``` vim
+       gedit
+       emacs
     ```
 
 * Background processes are specifies with a '&' at the end as a flag. These processes run in the background allowing the shell to execute processes simultaneously.
     * ``` bash
-    emacs &
-    evince &
-    gedit &
+   ``` emacs &
+       evince &
+       gedit &
     ```
 
 ## Running the shell
