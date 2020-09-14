@@ -8,7 +8,8 @@ Background and Foreground processes are also handled.
 * pwd : prints present working directory.
 
 * cd : changes directory as per the flags given.
-   ``` cd
+   ``` bash
+       cd
        cd .
        cd ..
        cd ~
@@ -16,7 +17,8 @@ Background and Foreground processes are also handled.
     ```
 
 * ls : lists contents of a particular directory based on the flags given. All flags are supported, ordering doesn't matter.
-  ```  ls
+  ```  bash
+       ls
        ls -a
        ls -l
        ls -la
@@ -25,18 +27,21 @@ Background and Foreground processes are also handled.
     ```
 
 * echo : prints a message on the terminal.
-      ``` echo <"Hello World">
+    ``` bash
+        echo <"Hello World">
     ```
 
 * pinfo : lists details of a given process id, of the shell in case process id is not specified.
-   ``` pinfo <pid>
+   ``` bash
+       pinfo <pid>
        pinfo
     ```
 
 ## Foreground and Background processes
 
 * Foreground processes require the shell to halt for the child process to complete before the shell resumes control.
-   ``` vim
+   ``` bash
+       vim
        gedit
        emacs
     ```
