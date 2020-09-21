@@ -5,51 +5,60 @@ void long_ls(char *file, int flag)
     DIR* dir = opendir(file);
     struct dirent* c;
     if(dir) {
-        while((c = readdir(dir)) != NULL) {
-            if (flag == 1) 
-            {
-                struct stat name;
-                if (stat(file, &name) == -1) {
-                    perror("long_ls");
-                }
-                printf((name.st_mode & S_IFDIR)? "d":"-");
-                printf((name.st_mode & S_IRUSR)? "r":"-");
-                printf((name.st_mode & S_IWUSR)? "w":"-");
-                printf((name.st_mode & S_IXUSR)? "x":"-");
-                printf((name.st_mode & S_IRGRP)? "r":"-");
-                printf((name.st_mode & S_IWGRP)? "w":"-");
-                printf((name.st_mode & S_IXGRP)? "x":"-");
-                printf((name.st_mode & S_IROTH)? "r":"-");
-                printf((name.st_mode & S_IWOTH)? "w":"-");
-                printf((name.st_mode & S_IXOTH)? "x":"-");
-                printf("\t");
-                printf("%ld", name.st_size);
-                printf("\t");
-                printf("%s\t", ctime(&name.st_atime));
-                printf("%s\n", c->d_name);
-            }
-            else {
-                if(c->d_name[0] != '.') 
-                {
-                    struct stat name;
-                    if (stat(file, &name) == -1) {
-                        perror("long_ls");
+        struct stat name;
+        if (stat(file, &name) == -1) {
+        perror("long_ls");
+        }
+        else {
+            while((c = readdir(dir)) != NULL) {
+                struct stat p;
+                if(!stat(c->d_name, &p)) {
+                    if (flag == 1) 
+                    {
+                        // struct stat name;
+                        // if (stat(file, &name) == -1) {
+                        //     perror("long_ls");
+                        // }
+                        printf((p.st_mode & S_IFDIR)? "d":"-");
+                        printf((p.st_mode & S_IRUSR)? "r":"-");
+                        printf((p.st_mode & S_IWUSR)? "w":"-");
+                        printf((p.st_mode & S_IXUSR)? "x":"-");
+                        printf((p.st_mode & S_IRGRP)? "r":"-");
+                        printf((p.st_mode & S_IWGRP)? "w":"-");
+                        printf((p.st_mode & S_IXGRP)? "x":"-");
+                        printf((p.st_mode & S_IROTH)? "r":"-");
+                        printf((p.st_mode & S_IWOTH)? "w":"-");
+                        printf((p.st_mode & S_IXOTH)? "x":"-");
+                        printf("\t");
+                        printf("%ld", p.st_size);
+                        printf("\t");
+                        printf("%s\t", ctime(&p.st_atime));
+                        printf("%s\n", c->d_name);
                     }
-                    printf((name.st_mode & S_IFDIR)? "d":"-");
-                    printf((name.st_mode & S_IRUSR)? "r":"-");
-                    printf((name.st_mode & S_IWUSR)? "w":"-");
-                    printf((name.st_mode & S_IXUSR)? "x":"-");
-                    printf((name.st_mode & S_IRGRP)? "r":"-");
-                    printf((name.st_mode & S_IWGRP)? "w":"-");
-                    printf((name.st_mode & S_IXGRP)? "x":"-");
-                    printf((name.st_mode & S_IROTH)? "r":"-");
-                    printf((name.st_mode & S_IWOTH)? "w":"-");
-                    printf((name.st_mode & S_IXOTH)? "x":"-");
-                    printf("\t");
-                    printf("%ld", name.st_size);
-                    printf("\t");
-                    printf("%s\t", ctime(&name.st_atime));
-                    printf("%s\n", c->d_name);
+                    else {
+                        if(c->d_name[0] != '.') 
+                        {
+                            // struct stat name;
+                            // if (stat(file, &name) == -1) {
+                            //     perror("long_ls");
+                            // }
+                            printf((p.st_mode & S_IFDIR)? "d":"-");
+                            printf((p.st_mode & S_IRUSR)? "r":"-");
+                            printf((p.st_mode & S_IWUSR)? "w":"-");
+                            printf((p.st_mode & S_IXUSR)? "x":"-");
+                            printf((p.st_mode & S_IRGRP)? "r":"-");
+                            printf((p.st_mode & S_IWGRP)? "w":"-");
+                            printf((p.st_mode & S_IXGRP)? "x":"-");
+                            printf((p.st_mode & S_IROTH)? "r":"-");
+                            printf((p.st_mode & S_IWOTH)? "w":"-");
+                            printf((p.st_mode & S_IXOTH)? "x":"-");
+                            printf("\t");
+                            printf("%ld", p.st_size);
+                            printf("\t");
+                            printf("%s\t", ctime(&p.st_atime));
+                            printf("%s\n", c->d_name);
+                        }
+                    }
                 }
             }
         }
