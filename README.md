@@ -93,3 +93,6 @@ Contains the function to execute builtin echo command.
 
 * pinfo.c
 Contains the function to execute builtin pinfo command.
+
+* history2.c
+Contains the function to display history.
