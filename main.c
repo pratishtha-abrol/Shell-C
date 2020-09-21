@@ -105,7 +105,7 @@ void done()
         else {
             if (WIFEXITED(status))
             {
-                printf("\n[%lld]+\tDone\t\t%s\tExited Successfully\n", job_count, temp[job_count]);
+                printf("\n[%lld]+\tDone\t%d\t%s\tExited Successfully\n", job_count, CHILD_PID[job_count], temp[job_count]);
                 printf("Press Enter\n");
                 // prompt();
                 job_count--;
