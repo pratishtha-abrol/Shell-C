@@ -19,7 +19,8 @@ int positions;
 long long int job_count;
 pid_t CHILD_PID[1024];
 char temp[100][1024];
-int his_count;
+char hist[20][1000];
+int hist_i;
 
 // main.c
 void shell();

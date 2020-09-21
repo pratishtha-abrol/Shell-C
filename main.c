@@ -17,7 +17,7 @@ int main()
         exit(1);
     }
     strcpy(HOME, CWD);
-    his_count = 0;
+    // hist_i = 0;
     // counter = 0;
     // fd = open("history.txt", O_RDWR | O_CREAT, 0666);
     shell ();
@@ -33,7 +33,9 @@ void shell()
         prompt();
         
         line = input();
-        add_to_history(line);
+        strcpy(hist[hist_i % 20], line);
+        hist_i++;
+        // add_to_history(line);
         // counter++;
         char *token = strtok(line, ";");
         char **cmd = malloc(256 * sizeof(char *));

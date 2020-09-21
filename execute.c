@@ -4,7 +4,7 @@
 #include "cd.c"
 #include "ls.c"
 #include "pinfo.c"
-#include "history.c"
+#include "history2.c"
 
 void execute (char *line)
 {
@@ -41,7 +41,7 @@ void execute (char *line)
     else if (strcmp(line, "pwd") == 0) pwd(line);
     else if (strcmp(line, "cd") == 0) cd(line);
     else if (strcmp(line, "ls") == 0) ls(line);
-    else if (strcmp(line, "history") == 0) print_history();
+    else if (strcmp(line, "history") == 0) history(line);
     else if (strcmp(line, "quit") == 0) {
         // writehistory();
         exit(0);
