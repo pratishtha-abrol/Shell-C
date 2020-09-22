@@ -5,6 +5,7 @@
 #include "ls.c"
 #include "pinfo.c"
 #include "history2.c"
+#include "redirection.c"
 
 void execute (char *line)
 {
@@ -33,7 +34,7 @@ void execute (char *line)
     {
         args[n-1] = NULL;
         background = 1;
-        job_count++;
+        bg_count++;
     }
 
     line = strtok(line, " \n\t\r");
@@ -70,9 +71,9 @@ void execute (char *line)
             }
             else
             {
-                CHILD_PID[job_count] = pid;
-                printf("Background process [%lld], pid : %i\n", job_count, pid);
-                strcpy(temp[job_count], args[0]);
+                CHILD_PID[bg_count] = pid;
+                printf("Background process [%lld], pid : %i\n", bg_count, pid);
+                strcpy(temp[bg_count], args[0]);
                 return;
             }
             

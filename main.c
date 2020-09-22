@@ -98,7 +98,7 @@ void done()
     int status;
     pid_t p;
     while (1) {
-        p = waitpid(CHILD_PID[job_count], &status, WNOHANG);
+        p = waitpid(CHILD_PID[bg_count], &status, WNOHANG);
         if (p == -1)
         {
             return;
@@ -106,10 +106,10 @@ void done()
         else {
             if (WIFEXITED(status))
             {
-                printf("\n[%lld]+\tDone\t%d\t%s\tExited Successfully\n", job_count, CHILD_PID[job_count], temp[job_count]);
+                printf("\n[%lld]+\tDone\t%d\t%s\tExited Successfully\n", bg_count, CHILD_PID[bg_count], temp[bg_count]);
                 printf("Press Enter\n");
                 // prompt();
-                job_count--;
+                bg_count--;
             }
         }
     }
