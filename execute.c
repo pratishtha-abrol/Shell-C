@@ -43,7 +43,7 @@ void execute (char *line)
     else if (strcmp(line, "ls") == 0) ls(line);
     else if (strcmp(line, "history") == 0) history(line);
     else if (strcmp(line, "quit") == 0) {
-        // writehistory();
+        write_history();
         exit(0);
     }
     else if (strcmp(line, "pinfo") == 0) pinfo(line);

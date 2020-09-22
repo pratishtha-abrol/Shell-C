@@ -17,6 +17,7 @@ int main()
         exit(1);
     }
     strcpy(HOME, CWD);
+    load_history();
     // hist_i = 0;
     // counter = 0;
     // fd = open("history.txt", O_RDWR | O_CREAT, 0666);
