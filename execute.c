@@ -7,6 +7,32 @@
 #include "history2.c"
 #include "redirection.c"
 
+int check_pipe (char *line)
+{
+    char *is_pipe = strstr(line, "|");
+    if(is_pipe != NULL)
+        return 1;
+
+    else return 0;
+}
+
+int check_redirect (char *line)
+{
+    char *out = strstr(line, ">");
+    char *in = strstr(line, "<");
+
+    if((out != NULL) && (in != NULL))
+        return 3;
+    
+    else if(out != NULL)
+        return 2;
+    
+    else if(in != NULL)
+        return 1;
+
+    else return 0;
+}
+
 void execute (char *line)
 {
     char *c = (char *)malloc(sizeof(char) *2000);
@@ -36,20 +62,37 @@ void execute (char *line)
         background = 1;
         bg_count++;
     }
+    else if(args[n-1][strlen(args[n-1]) -1] == '&')
+    {
+        args[n-1][strlen(args[n-1]) -1] = '\0';
+        background = 1;
+        bg_count++;
+    }
+
+    // if(check_pipe(line)) {
+    //     pipe(line);
+    // }
+    if(check_redirect(line)) {
+        redirect(line);
+    }
 
     line = strtok(line, " \n\t\r");
-    if (strcmp(line, "echo") == 0) echo(line);
-    else if (strcmp(line, "pwd") == 0) pwd(line);
-    else if (strcmp(line, "cd") == 0) cd(line);
-    else if (strcmp(line, "ls") == 0) ls(line);
-    else if (strcmp(line, "history") == 0) history(line);
-    else if (strcmp(line, "quit") == 0) {
+    
+    // redirect(line);
+
+    if (strcmp(args[0], "echo") == 0) echo(line);
+    else if (strcmp(args[0], "pwd") == 0) pwd(line);
+    else if (strcmp(args[0], "cd") == 0) cd(line);
+    else if (strcmp(args[0], "ls") == 0) ls(line);
+    else if (strcmp(args[0], "history") == 0) history(line);
+    else if (strcmp(args[0], "quit") == 0) {
         write_history();
         exit(0);
     }
-    else if (strcmp(line, "pinfo") == 0) pinfo(line);
+    else if (strcmp(args[0], "pinfo") == 0) pinfo(line);
     else {
         pid = fork();
+        args[n] = NULL;
         if (pid < 0) // Child process not created
         {
             perror("fork");
