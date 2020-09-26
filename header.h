@@ -27,3 +27,6 @@ void shell();
 void prompt();
 char *input();
 void done();
+
+// execute.c
+void execute (char *line);

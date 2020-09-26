@@ -6,6 +6,7 @@
 #include "pinfo.c"
 #include "history2.c"
 #include "redirection.c"
+#include "pipeline.c"
 
 int check_pipe (char *line)
 {
@@ -69,11 +70,13 @@ void execute (char *line)
         bg_count++;
     }
 
-    // if(check_pipe(line)) {
-    //     pipe(line);
-    // }
+    if(check_pipe(line)) {
+        pipeline(line);
+        return;
+    }
     if(check_redirect(line)) {
         redirect(line);
+        return;
     }
 
     line = strtok(line, " \n\t\r");
