@@ -20,23 +20,23 @@ void pipeline(char *line)
 {
     char **pipe_args = pipe_elements(line);
     int pipes[2], fd = 0;
-    pid_t proc;
+    pid_t pid;
 
     for(int j=0; pipe_args[j]!= NULL; j++)
     {
         pipe(pipes);
-        proc = fork();
+        pid = fork();
         
-        if(proc < 0) perror("pipe");
+        if(pid < 0) perror("pipe");
         
-        else if(proc > 0)
+        else if(pid > 0)
         {
             wait(NULL);
             close(pipes[1]);
             fd = pipes[0];
         }
 
-        else if(proc == 0)
+        else if(pid == 0)
         {
             dup2(fd , 0);
             

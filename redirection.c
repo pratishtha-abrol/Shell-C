@@ -20,7 +20,6 @@ void redirect(char *line)
 
     char * inp = strstr(line, "<");
     int in = !(inp == NULL);
-    //printf(" %d", in);
     int out_type = 0;
     char * out = strstr(line, ">>");
     
