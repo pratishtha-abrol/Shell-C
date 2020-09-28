@@ -60,7 +60,6 @@ void redirect(char *line)
             return;
         }
         
-        //printf("\n fk no %s\n",input[1]);
         in_file = strtok(input[1], " \n\r\t");
         if(!isfile(in_file))
         {
@@ -90,7 +89,6 @@ void redirect(char *line)
             return;
         }
 
-        //printf("%s %d\n", out_file, out_type);
     }
 
     pid_t pid = fork();
