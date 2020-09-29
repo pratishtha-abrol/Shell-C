@@ -5,7 +5,7 @@
 #include "ls.c"
 #include "pinfo.c"
 #include "history2.c"
-#include "redirection.c"
+#include "redirection2.c"
 #include "pipeline.c"
 
 int check_pipe (char *line)
@@ -23,13 +23,13 @@ int check_redirect (char *line)
     char *in = strstr(line, "<");
 
     if((out != NULL) && (in != NULL))
-        return 3;
+        return 1;
     
     else if(out != NULL)
         return 2;
     
     else if(in != NULL)
-        return 1;
+        return 3;
 
     else return 0;
 }
@@ -44,7 +44,7 @@ void execute (char *line)
         return;
     }
     char **args = (char**)malloc(sizeof(char*) * 100);
-    int n = 0;
+    int n = 0, r;
     int background = 0;
     pid_t pid;
     
@@ -74,8 +74,8 @@ void execute (char *line)
         pipeline(line);
         return;
     }
-    if(check_redirect(line)) {
-        redirect(line);
+    if(r = check_redirect(line)) {
+        redirect(line, r);
         return;
     }
 

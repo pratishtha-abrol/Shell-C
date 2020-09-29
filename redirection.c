@@ -1,6 +1,6 @@
 #include "header.h"
 
-int isfile(char* path) 
+int exists(char* path) 
 {
     struct stat f;
     if(stat(path, &f) == 0 && !S_ISDIR(f.st_mode))
@@ -8,52 +8,50 @@ int isfile(char* path)
     else return 0;
 }
 
-void redirect(char *line)
+void redirect(char *line, int r)
 {
-    int saved_stdout = dup(STDOUT_FILENO);
-    int saved_stdin = dup(STDIN_FILENO);
-    int status;
-
     char *output[2], *input[2];
     char * out_file = NULL;
     char * in_file = NULL;
-
     char * inp = strstr(line, "<");
-    int in = !(inp == NULL);
-    int out_type = 0;
     char * out = strstr(line, ">>");
-    
-    if(out != NULL)
-        out_type = 2;
+    int o = 0, i = 0;
 
-    else 
-    {
-        out = strstr(line, ">");
-        if(out != NULL)
-            out_type = 1;
+    char **args = (char**)malloc(sizeof(char*) * 300);
+    int n = 0;
+
+    if (r == 1 || r == 2) {
+        if (out != 0) o = 2;
+        else {
+            out = strstr(line, ">");
+            if (out != 0) o = 1;
+        }
+    }
+
+    if (r == 1 || r ==3) {
+        i = 1;
     }
 
     output[0] = &line[0];
 
-    if(out_type)
+    if(o)
     { 
         output[0] = strtok(line, ">");
         output[1] = strtok(NULL, ">");
         out_file = strtok(output[1], " \r\t\n");
+        if(out_file == NULL)
+        {
+            printf("Enter output file\n");
+            return;
+        }
     }
 
     input[0] = output[0];
-    if(in)
-    { 
+
+    if(i)
+    {
         input[0] = strtok(input[0], "<");
         input[1] = strtok(NULL, "<");
-    }
-
-    char **args = (char**)malloc(sizeof(char*) * 300);
-    int n = 0;
-    
-    if(in)
-    {
         if(input[1] == NULL)
         {
             printf("Specify file name for input\n");
@@ -61,12 +59,11 @@ void redirect(char *line)
         }
         
         in_file = strtok(input[1], " \n\r\t");
-        if(!isfile(in_file))
+        if(!exists(in_file))
         {
             printf("File does not exist\n");
             return;
         }
-    
     }
 
     input[0] = strtok(input[0], " \n\r\t");
@@ -78,19 +75,11 @@ void redirect(char *line)
         input[0] = strtok(NULL, " \n\t\r");
         n++;
     }
-
     args[n] = NULL;
 
-    if(out_type)
-    {
-        if(out_file == NULL)
-        {
-            printf("Enter output file\n");
-            return;
-        }
-
-    }
-
+    int saved_stdout = dup(STDOUT_FILENO);
+    int saved_stdin = dup(STDIN_FILENO);
+    int status;
     pid_t pid = fork();
     if(pid < 0)
     {
@@ -100,7 +89,7 @@ void redirect(char *line)
 
     if(pid == 0)
     {
-        if(in)
+        if(i)
         {
             int fd_in = open(in_file, O_RDONLY);
             if(fd_in < 0) 
@@ -113,13 +102,13 @@ void redirect(char *line)
             close(fd_in);
         }
 
-        if(out_type)
+        if(o)
         {
             int fd_out;
-            if(out_type == 1)
+            if(o == 1)
                 fd_out = open(out_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 
-            else if(out_type == 2)
+            else if(o == 2)
                 fd_out = open(out_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 
             if(fd_out < 0)
