@@ -5,7 +5,7 @@
 #include "ls.c"
 #include "pinfo.c"
 #include "history2.c"
-#include "redirection2.c"
+#include "redirection.c"
 #include "pipeline.c"
 
 int check_pipe (char *line)
@@ -122,7 +122,6 @@ void execute (char *line)
                 strcpy(temp[bg_count], args[0]);
                 return;
             }
-            
         }                
     }
 }
