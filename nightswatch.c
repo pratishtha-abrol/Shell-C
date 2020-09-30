@@ -1,22 +1,5 @@
 #include "header.h"
 
-char * read_file(char *filename, int n)
-{
-    FILE* file = fopen(filename, "r");
-    char line[256];
-    char *info = malloc(sizeof(char) *256);
-    int i = 0;
-    while (fgets(line, sizeof(line), file)) 
-    {
-        i++;
-        if(i == n)
-            strcpy(info, line);
-    }
-
-    fclose(file);
-    return info;
-}
-
 void newborn(char **args, int n)
 {
     while(1)
