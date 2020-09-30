@@ -10,6 +10,7 @@
 #include "setenv.c"
 #include "unsetenv.c"
 #include "nightswatch.c"
+#include "jobs.c"
 
 int check_pipe (char *line)
 {
@@ -47,9 +48,9 @@ void execute (char *line)
         return;
     }
     char **args = (char**)malloc(sizeof(char*) * 100);
-    int n = 0, r;
+    int n = 0, r, status;
     int background = 0;
-    pid_t pid;
+    pid_t pid, wpid;
     
     while (c != NULL)
     {
@@ -99,6 +100,7 @@ void execute (char *line)
     else if (!strcmp(args[0], "setenv")) setenvironment(args, n);
     else if (!strcmp(args[0], "unsetenv")) unsetenvironment(args, n);
     else if (!strcmp(args[0], "nightswatch")) nightswatch(args, n);
+    else if (!strcmp(args[0], "jobs")) jobs();
     else {
         pid = fork();
         args[n] = NULL;
@@ -120,15 +122,50 @@ void execute (char *line)
         {
             if (background == 0)
             {
-                wait(NULL);
-                return;
+                signal(SIGTTIN, SIG_IGN);
+                signal(SIGTTOU, SIG_IGN);
+                tcsetpgrp(STDIN_FILENO, pid);
+                wpid = waitpid(pid, &status, WUNTRACED);
+                tcsetpgrp(STDIN_FILENO, getpgrp());
+                signal(SIGTTIN, SIG_DFL);
+                signal(SIGTTOU, SIG_DFL);
+                if(WIFSTOPPED(status))
+                {
+                    strcpy(jobarray[job_count].job_name, line);
+                    // strcpy(jobarray[job_count].job_name, args[0]);
+                    // for(int i=1; i<n; i++)
+                    // {
+                    //     strcat(jobarray[job_count].job_name, " ");
+                    //     strcat(jobarray[job_count].job_name, args[i]);
+                    // }
+                    printf("%s with PID %d suspended\n", args[0], pid);
+                    jobarray[job_count].PID = pid;
+                    job_count++;
+                }
+                // return;
             }
             else
             {
                 CHILD_PID[bg_count] = pid;
+                
+                strcpy(jobarray[job_count].job_name, line);
+                // strcpy(jobarray[job_count].job_name, args[0]);
+                // printf("wtf\n");
+                // for(int i=1; i<n; i++)
+                // {
+                //     strcat(jobarray[job_count].job_name, " ");
+                //     strcat(jobarray[job_count].job_name, args[i]);
+                // }
+                // printf("wtf\n");
+                jobarray[job_count].PID = pid;
+
+                strcpy(temp[bg_count], jobarray[job_count].job_name);
+
+                job_count++;
+
                 printf("Background process [%lld], pid : %i\n", bg_count, pid);
-                strcpy(temp[bg_count], args[0]);
-                return;
+                
+                // return;
             }
         }                
     }
