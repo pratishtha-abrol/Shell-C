@@ -7,6 +7,8 @@
 #include "history2.c"
 #include "redirection.c"
 #include "pipeline.c"
+#include "setenv.c"
+#include "unsetenv.c"
 
 int check_pipe (char *line)
 {
@@ -93,6 +95,8 @@ void execute (char *line)
         exit(0);
     }
     else if (strcmp(args[0], "pinfo") == 0) pinfo(line);
+    else if (!strcmp(args[0], "setenv")) setenvironment(args, n);
+    else if (!strcmp(args[0], "unsetenv")) unsetenvironment(args, n);
     else {
         pid = fork();
         args[n] = NULL;
