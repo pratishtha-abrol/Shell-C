@@ -106,11 +106,13 @@ void execute (char *line)
         }
         else if (pid == 0) // Child process
         {
-            int fin, fout;
+            // int fin, fout;
             setpgid(0, 0);
-            execvp(args[0], args);
-            perror("execvp");
-            return;
+            if(execvp(args[0], args) < 0)
+            {
+                perror("execvp");
+                exit(1);
+            }
         }
         else
         {
