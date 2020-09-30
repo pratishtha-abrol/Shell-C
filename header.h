@@ -13,6 +13,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/resource.h>
+#include <sys/select.h>
 
 char USER[1024], HOST[1024], CWD[2048], HOME[2048];
 int positions;

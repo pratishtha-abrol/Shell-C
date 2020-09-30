@@ -9,6 +9,7 @@
 #include "pipeline.c"
 #include "setenv.c"
 #include "unsetenv.c"
+#include "nightswatch.c"
 
 int check_pipe (char *line)
 {
@@ -97,6 +98,7 @@ void execute (char *line)
     else if (strcmp(args[0], "pinfo") == 0) pinfo(line);
     else if (!strcmp(args[0], "setenv")) setenvironment(args, n);
     else if (!strcmp(args[0], "unsetenv")) unsetenvironment(args, n);
+    else if (!strcmp(args[0], "nightswatch")) nightswatch(args, n);
     else {
         pid = fork();
         args[n] = NULL;
