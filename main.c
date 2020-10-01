@@ -116,7 +116,7 @@ void done()
     }
 }
 
-char * read_file(char *filename, int n)
+char * find_line(char *filename, int n)
 {
     FILE* file = fopen(filename, "r");
     char line[256];

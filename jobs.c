@@ -9,7 +9,7 @@ void jobs()
         FILE *f;
         if (!(f = fopen(stat, "r"))) perror("jobs");
         else {
-            char *info = read_file(stat, 3);
+            char *info = find_line(stat, 3);
             char *temp = info;
             info = strtok(info, " :\n\t\r");
             info = strtok(NULL, " :\n\t\r");

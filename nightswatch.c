@@ -17,7 +17,7 @@ void interrupt(char **args, int n)
 
     else
     {
-        char *line = read_file("/proc/interrupts", 1);
+        char *line = find_line("/proc/interrupts", 1);
         printf("%s\n",line);
         free(line);  
         fclose(foo);
@@ -31,7 +31,7 @@ void interrupt(char **args, int n)
 
         else
         {
-            char *line = read_file("/proc/interrupts", 3);
+            char *line = find_line("/proc/interrupts", 3);
             for(int i=0; i < strlen(line); i++)
             {
                 if(line[i]=='I')

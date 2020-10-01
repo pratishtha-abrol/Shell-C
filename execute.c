@@ -132,12 +132,6 @@ void execute (char *line)
                 if(WIFSTOPPED(status))
                 {
                     strcpy(jobarray[job_count].job_name, line);
-                    // strcpy(jobarray[job_count].job_name, args[0]);
-                    // for(int i=1; i<n; i++)
-                    // {
-                    //     strcat(jobarray[job_count].job_name, " ");
-                    //     strcat(jobarray[job_count].job_name, args[i]);
-                    // }
                     printf("%s with PID %d suspended\n", args[0], pid);
                     jobarray[job_count].PID = pid;
                     job_count++;
@@ -149,14 +143,6 @@ void execute (char *line)
                 CHILD_PID[bg_count] = pid;
                 
                 strcpy(jobarray[job_count].job_name, line);
-                // strcpy(jobarray[job_count].job_name, args[0]);
-                // printf("wtf\n");
-                // for(int i=1; i<n; i++)
-                // {
-                //     strcat(jobarray[job_count].job_name, " ");
-                //     strcat(jobarray[job_count].job_name, args[i]);
-                // }
-                // printf("wtf\n");
                 jobarray[job_count].PID = pid;
 
                 strcpy(temp[bg_count], jobarray[job_count].job_name);

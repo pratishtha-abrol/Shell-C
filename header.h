@@ -40,7 +40,7 @@ void shell();
 void prompt();
 char *input();
 void done();
-char * read_file(char *filename, int n);
+char * find_line(char *filename, int n);
 
 // execute.c
 void execute (char *line);
