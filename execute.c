@@ -11,6 +11,7 @@
 #include "unsetenv.c"
 #include "nightswatch.c"
 #include "jobs.c"
+#include "kjob.c"
 
 int check_pipe (char *line)
 {
@@ -101,6 +102,7 @@ void execute (char *line)
     else if (!strcmp(args[0], "unsetenv")) unsetenvironment(args, n);
     else if (!strcmp(args[0], "nightswatch")) nightswatch(args, n);
     else if (!strcmp(args[0], "jobs")) jobs();
+    else if (!strcmp(args[0], "kjob")) kjob(args, n);
     else {
         pid = fork();
         args[n] = NULL;
