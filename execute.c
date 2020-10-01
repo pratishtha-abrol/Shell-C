@@ -13,6 +13,8 @@
 #include "jobs.c"
 #include "kjob.c"
 #include "overkill.c"
+#include "fg.c"
+#include "bg.c"
 
 int check_pipe (char *line)
 {
@@ -105,6 +107,8 @@ void execute (char *line)
     else if (!strcmp(args[0], "jobs")) jobs();
     else if (!strcmp(args[0], "kjob")) kjob(args, n);
     else if (!strcmp(args[0], "overkill")) overkill();
+    else if (!strcmp(args[0], "fg")) fg(args, n);
+    else if (!strcmp(args[0], "bg")) bg(args, n);
     else {
         pid = fork();
         args[n] = NULL;

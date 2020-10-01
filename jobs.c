@@ -7,7 +7,9 @@ void jobs()
     {
         sprintf(stat, "/proc/%d/status", jobarray[i].PID);
         FILE *f;
-        if (!(f = fopen(stat, "r"))) perror("jobs");
+        if (!(f = fopen(stat, "r"))) 
+            continue;
+            // perror("job exited");
         else {
             char *info = find_line(stat, 3);
             char *temp = info;

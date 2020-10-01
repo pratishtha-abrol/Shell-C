@@ -132,3 +132,22 @@ char * find_line(char *filename, int n)
     fclose(file);
     return info;
 }
+
+void del_process(int id)
+{
+    if (id == -1) job_count = 0;
+    else
+    {
+        for (int i=0; i<job_count; i++)
+        {
+            if (jobarray[i].PID == id)
+            {
+                for (int j = i; j<job_count-1; j++)
+                {
+                    jobarray[j] = jobarray[j+1];
+                }
+                job_count--;
+            }
+        }
+    }
+}

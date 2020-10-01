@@ -34,6 +34,7 @@ struct job
 
 typedef struct job job;
 job jobarray[100];
+job current_fg;
 
 // main.c
 void shell();
@@ -41,6 +42,7 @@ void prompt();
 char *input();
 void done();
 char * find_line(char *filename, int n);
+void del_process(int id);
 
 // execute.c
 void execute (char *line);
