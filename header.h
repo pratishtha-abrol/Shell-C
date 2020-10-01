@@ -21,7 +21,7 @@
 char USER[1024], HOST[1024], CWD[2048], HOME[2048];
 int positions, job_count;
 long long int bg_count;
-pid_t CHILD_PID[1024];
+pid_t SHELL_ID, CHILD_PID[1024];
 char temp[100][1024];
 char hist[20][1000];
 int hist_i;
@@ -41,6 +41,8 @@ void shell();
 void prompt();
 char *input();
 void done();
+void ctrl_c (int signum);
+void ctrl_z (int signum);
 char * find_line(char *filename, int n);
 void del_process(int id);
 

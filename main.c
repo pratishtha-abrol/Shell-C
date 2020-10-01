@@ -3,6 +3,7 @@
 
 int main()
 {
+    SHELL_ID = getpid();
     if (gethostname(HOST, sizeof(HOST)) == -1){
         perror("gethostname");
         exit(1);
@@ -31,7 +32,10 @@ void shell()
 
     do
     {
+        current_fg.PID = -1;
         signal(SIGCHLD, done);
+        signal(SIGINT, ctrl_c);
+        signal(SIGTSTP, ctrl_z);
         prompt();
         
         line = input();
@@ -114,6 +118,43 @@ void done()
             }
         }
     }
+}
+
+void ctrl_c (int signum)
+{
+    pid_t p = getpid();
+    if (p != SHELL_ID) return;
+    if( p == SHELL_ID && current_fg.PID == -1)
+    {
+        prompt();
+        fflush(stdout);
+    }
+    if (current_fg.PID != -1)
+    {
+        kill(current_fg.PID, SIGINT);
+    }
+    signal(SIGINT, ctrl_c);
+}
+
+void ctrl_z (int signum)
+{
+    pid_t p = getpid();
+    if (p != SHELL_ID) return;
+    if (current_fg.PID != -1)
+    {
+        kill(current_fg.PID, SIGTTIN);
+        kill(current_fg.PID, SIGTSTP);
+        jobarray[job_count].PID = current_fg.PID;
+        strcpy(jobarray[job_count].job_name, current_fg.job_name);
+        job_count++;
+    }
+    signal(SIGTSTP, ctrl_z);
+    if(p == SHELL_ID)
+    {
+        prompt();
+        fflush(stdout);
+    }
+    return;
 }
 
 char * find_line(char *filename, int n)
