@@ -36,21 +36,63 @@ Background and Foreground processes are also handled.
        pinfo <pid>
        pinfo
     ```
+    
+* setenv : setting an environment variable
+    ``` bash
+        setenv a 7
+    ```
+
+* unsetenv : unsetting an environment variable
+    ``` bash
+        unsetenv a
+    ```
+    
+* jobs : prints a list of all jobs executed by the shell
+    ``` bash
+        jobs
+    ```
+    
+* kjob : send specified signal to the specified job
+    ``` bash
+        kjob 2 9
+    ```
+    
+* fg : brings a background process to foreground
+    ``` bash
+        fg 1
+    ```
+
+* bg : pushes a foreground process to the background
+    ``` bash
+        bg 2
+    ```
+
+* overkill : kills all running processes in the shell
+    ``` bash
+        overkill
+    ```
 
 ## Foreground and Background processes
 
 * Foreground processes require the shell to halt for the child process to complete before the shell resumes control.
-   ``` bash
-       vim
-       gedit
-       emacs
+     ``` bash
+        vim
+        gedit
+        emacs
     ```
 
 * Background processes are specifies with a '&' at the end as a flag. These processes run in the background allowing the shell to execute processes simultaneously.
-   ``` emacs &
-       evince &
-       gedit &
+    ``` bash
+        emacs &
+        evince &
+        gedit &
     ```
+
+## Supported Functions
+* The shell supports redirection using <, >, >>
+* The shell supports pipping
+* Input- Output redirection is supported.
+* CTRL + Z and CTRL + C are accepted
 
 ## Running the shell
 
@@ -96,3 +138,33 @@ Contains the function to execute builtin pinfo command.
 
 * history2.c
 Contains the function to display history.
+
+* redirection.c
+Contains the code for basic redirection.
+
+* pipeline.c
+Contains the code for pipelined commands.
+
+* jobs.c
+Contains the function to execute builtin jobs command.
+
+* kjob.c
+Contains the function to execute builtin kjob command.
+
+* overkill.c
+Contains the function to execute builtin overkill command.
+
+* setenv.c
+Contains the function to execute builtin setenv command.
+
+* unsetenv.c
+Contains the function to execute builtin unsetenv command.
+
+* fg.c
+Contains the function to execute builtin fg command.
+
+* bg.c
+Contains the function to execute builtin bg command.
+
+* nightswatch.c
+Contains the function to execute builtin nightswatch command. Implementation in progress.
